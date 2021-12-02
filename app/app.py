@@ -1,13 +1,13 @@
 import streamlit as st
 from datetime import date
 import numpy as np
-import tensorflow as tf
 from PIL import Image
 import cv2
-from helpers import image_to_dict, image_from_dict
+from helpers import image_to_dict, image_from_dict, display_resized_prediction, binarize_predictions
 import requests as rq
 import json
 import base64
+import matplotlib.pyplot as plt
 
 
 
@@ -31,6 +31,8 @@ image_to_predict = st.file_uploader("Please upload your image here to highlight 
 if image_to_predict:
     image = Image.open(image_to_predict)
     st.image(image)
+    #Save a 526x images to be used later in the display
+    image_526 = image.resize((526, 526))
     # Changement de la résolution de l'image
     image=image.resize((256,256))
     rgb_im = image.convert('RGB')
@@ -48,11 +50,40 @@ if st.button("Click to discover the road prediction 🛣"):
     request_dict = image_to_dict(imgArray,dtype='float32')
     # Post image data, and get prediction
     res = rq.post(endpoint, json.dumps(request_dict), headers=headers).json()
-    st.text(res)
 
+
+    #----- test ------
+    final_prediction = image_from_dict(res,dtype='float16')
+    final_prediction = final_prediction[0]
+    final_prediction = final_prediction.reshape(256, 256)
+    final_prediction = binarize_predictions(final_prediction)
+    final_prediction = display_resized_prediction(final_prediction)
+
+    # imgArray =  np.float32(imgArray)
+    # imgArray = display_resized_prediction(imgArray)
+    imgArray = np.asarray(image_526, np.uint16)
+
+    final_prediction = np.uint16(final_prediction)
+    mask = np.ma.masked_where(final_prediction < 1, np.zeros(final_prediction.shape))
+
+    final_prediction = Image.fromarray(final_prediction)
+    final_prediction = final_prediction.convert("RGB")
+    final_prediction = np.asarray(final_prediction, np.uint16)
 
     if res:
         st.balloons()
-        st.success('This is a success!')
-        st.write("Here are the real roads seen in the landscape")
-        st.image(image_from_dict(res,dtype='float16'))
+        st.success('Success!')
+        st.write("Below are the roads predicted by our model")
+        #transform from (1, 256, 256, 1) to (256, 256)
+        # array = image_from_dict(res,dtype='float16')[0].reshape(256, 256)
+        #binarize
+        # array = binarize_predictions(array)
+        #resize
+        # array = display_resized_prediction(array)
+        st.image(final_prediction)
+        st.write("Below is the superposition of the model's prediction and the input picture")
+        # st.image(added_image)
+        fig, ax = plt.subplots()
+        ax.imshow(imgArray)
+        ax.imshow(mask, cmap='autumn')
+        st.pyplot(fig)

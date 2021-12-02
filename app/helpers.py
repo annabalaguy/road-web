@@ -1,5 +1,6 @@
 import base64
 import numpy as np
+from PIL import Image
 
 
 def image_to_dict(image_array, dtype='uint8', encoding='utf-8'):
@@ -72,3 +73,27 @@ def image_from_dict(api_dict, dtype='uint8', encoding='utf-8'):
                       api_dict.get('channel')))
 
     return img
+
+
+def display_resized_prediction(pred):
+    #Resize the image in 526, 526 & display it
+    image = Image.fromarray((pred).astype(np.uint8))
+    image = image.resize((526, 526))
+    image = np.array(image)
+    return image
+
+def binarize_predictions(pred, threshold=0.5):
+    #Binarize the prediction based on if above or below a given threshold (default = 0.5)
+    dimension = pred.shape[0]
+    new_pred = []
+    #vectorize
+    pred = list(pred.reshape(dimension*dimension))
+    #binarize the vector
+    for pixel in pred:
+        if pixel > threshold:
+            new_pred.append(255)
+        else:
+            new_pred.append(0)
+
+    new_pred = np.array(new_pred).reshape(dimension, dimension)
+    return new_pred
