@@ -1,9 +1,9 @@
 streamlit
 
 numpy
-tensorflow
+
 Pillow
-cv2
+
 requests
 json
 base64
