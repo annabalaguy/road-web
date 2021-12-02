@@ -5,5 +5,4 @@ numpy
 Pillow
 
 requests
-json
 base64
