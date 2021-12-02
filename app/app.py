@@ -40,7 +40,7 @@ if st.button("Click to discover the road prediction 🛣"):
     st.write('Roads incoming…')
     #response = requests.get(url, params).json()
 
-    endpoint = 'http://localhost:8000/predict'
+    endpoint = 'https://api-road-sfkiqek4vq-ew.a.run.app/predict'
     # Ensure json content type
     headers = {}
     headers['Content-Type'] = 'application/json'
@@ -48,7 +48,6 @@ if st.button("Click to discover the road prediction 🛣"):
     request_dict = image_to_dict(imgArray,dtype='float32')
     # Post image data, and get prediction
     res = rq.post(endpoint, json.dumps(request_dict), headers=headers).json()
-    st.text(res)
 
 
     if res:
