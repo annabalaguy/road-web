@@ -2,7 +2,6 @@ streamlit
 
 numpy
 
-Pillow
-
 requests
 
+Pillow
