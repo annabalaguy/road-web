@@ -19,6 +19,19 @@ st.header('Online tool to identify areas of deforestation risk')
 st.markdown('''
 Are there any road in the landscape ?
 ''')
+
+#BANDEAU BACKGROUND
+CSS = """
+h1 {
+    color: #228500;
+}
+.stApp {
+    border-image: url(https://parismatch.be/app/uploads/2018/09/GP0STS4DJ_PressMedia-1100x715.jpg)round;
+    border-image-slice: calc(50 / 184 * 100%) calc(80 / 284 * 100%) fill;
+}
+"""
+st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+
 image_to_predict = st.file_uploader("Please upload your image here to highlight the roads",
                                     type=['jpg', 'png', 'jpeg'])
 #prediction = st.file_uploader("upload the mask", type=['jpg', 'png', 'jpeg'])
@@ -51,7 +64,7 @@ if st.button("Click to discover the road prediction 🛣"):
     final_prediction = image_from_dict(res,dtype='float16')
     final_prediction = final_prediction[0]
     final_prediction = final_prediction.reshape(256, 256)
-    final_prediction = binarize_predictions(final_prediction)
+    final_prediction = binarize_predictions(final_prediction, threshold=0.4)
     final_prediction = display_resized_prediction(final_prediction)
 
     # imgArray =  np.float32(imgArray)
@@ -83,5 +96,5 @@ if st.button("Click to discover the road prediction 🛣"):
         ax.axis('off')
         st.pyplot(fig)
         #MASQUE
-        st.header("Below is the prediction only")
-        st.image(final_prediction)
+        #st.header("Below is the prediction only")
+        #st.image(final_prediction)
