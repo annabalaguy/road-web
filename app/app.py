@@ -21,16 +21,16 @@ Are there any road in the landscape ?
 ''')
 
 #BANDEAU BACKGROUND
-CSS = """
-h1 {
-    color: #228500;
-}
-.stApp {
-    border-image: url(https://parismatch.be/app/uploads/2018/09/GP0STS4DJ_PressMedia-1100x715.jpg)round;
-    border-image-slice: calc(50 / 184 * 100%) calc(80 / 284 * 100%) fill;
-}
-"""
-st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+#CSS = """
+#h1 {
+#     color: #228500;
+# }
+# .stApp {
+#     border-image: url(https://parismatch.be/app/uploads/2018/09/GP0STS4DJ_PressMedia-1100x715.jpg)round;
+#     border-image-slice: calc(50 / 184 * 100%) calc(80 / 284 * 100%) fill;
+# }
+# """
+# st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
 image_to_predict = st.file_uploader("Please upload your image here to highlight the roads",
                                     type=['jpg', 'png', 'jpeg'])
