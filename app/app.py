@@ -1,11 +1,9 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
-import cv2
 from helpers import image_to_dict, image_from_dict, display_resized_prediction, binarize_predictions
 import requests as rq
 import json
-import base64
 import matplotlib.pyplot as plt
 
 
