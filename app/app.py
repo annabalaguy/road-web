@@ -6,9 +6,6 @@ import requests as rq
 import json
 import matplotlib.pyplot as plt
 
-
-
-
 st.set_page_config(
     page_title="ANTI-DEFORESTATION",  # => Quick reference - Streamlit
     page_icon="🌳",
