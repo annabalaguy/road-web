@@ -1,5 +1,5 @@
 streamlit
-matplotlib.pyplot
+matplotlib==3.5.0
 numpy
 
 requests
