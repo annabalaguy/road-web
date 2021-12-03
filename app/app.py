@@ -18,11 +18,11 @@ st.set_page_config(
     initial_sidebar_state="auto")  # collapsed
 
 st.title('WELCOME TO THE ROADS DETECTOR')
-st.header('Serious tool to prevent risky regions from deforestation')
+st.header('Online tool to identify areas of deforestation risk')
 
 
 st.markdown('''
-Is there any road in the landscape ?
+Are there any road in the landscape ?
 ''')
 image_to_predict = st.file_uploader("Please upload your image here to highlight the roads",
                                     type=['jpg', 'png', 'jpeg'])
@@ -71,19 +71,22 @@ if st.button("Click to discover the road prediction 🛣"):
     final_prediction = np.asarray(final_prediction, np.uint16)
 
     if res:
-        st.balloons()
-        st.success('Success!')
-        st.write("Below are the roads predicted by our model")
+        #st.balloons()
+        #st.success('Success!')
         #transform from (1, 256, 256, 1) to (256, 256)
         # array = image_from_dict(res,dtype='float16')[0].reshape(256, 256)
         #binarize
         # array = binarize_predictions(array)
         #resize
         # array = display_resized_prediction(array)
-        st.image(final_prediction)
-        st.write("Below is the superposition of the model's prediction and the input picture")
-        # st.image(added_image)
+
+        #SUPERPOSITION PREDICTION IMAGE
+        st.header("Find the roads detected below")
         fig, ax = plt.subplots()
         ax.imshow(imgArray)
-        ax.imshow(mask, cmap='autumn')
+        ax.imshow(mask, cmap='spring')
+        ax.axis('off')
         st.pyplot(fig)
+        #MASQUE
+        st.header("Below is the prediction only")
+        st.image(final_prediction)
