@@ -1,5 +1,4 @@
 import streamlit as st
-from datetime import date
 import numpy as np
 from PIL import Image
 import cv2
@@ -8,6 +7,7 @@ import requests as rq
 import json
 import base64
 import matplotlib.pyplot as plt
+
 
 
 
@@ -42,7 +42,7 @@ if st.button("Click to discover the road prediction 🛣"):
     st.write('Roads incoming…')
     #response = requests.get(url, params).json()
 
-    endpoint = 'http://localhost:8000/predict'
+    endpoint = 'https://api-road-sfkiqek4vq-ew.a.run.app/predict'
     # Ensure json content type
     headers = {}
     headers['Content-Type'] = 'application/json'
